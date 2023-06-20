@@ -35,7 +35,7 @@ model Topic {
   user     User   @relation(fields: [username], references: [username], onUpdate: Cascade, onDelete: Cascade)
   username String
   topic    String
-  access   Int    @default(0)
+  access   Access @default(READ)
 
   @@unique([username, topic])
 }
@@ -43,4 +43,10 @@ model Topic {
 enum GameMode {
   COMPETITIVE
   COOPERATIVE
+}
+
+enum Access {
+  READ
+  WRITE
+  READ_WRITE
 }
