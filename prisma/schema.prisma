@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id      Int      @id @default(autoincrement())
+  code    String   @unique
+  expires DateTime
+  started Boolean  @default(false)
+  mode    GameMode @default(COMPETITIVE)
+  broker  Int      @default(0)
+  User    User[]
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String  @unique
+  game     Game    @relation(fields: [gameId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  gameId   Int
+  secret   String
+  Topic    Topic[]
+  lead     Boolean @default(false)
+}
+
+model Topic {
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [username], references: [username], onUpdate: Cascade, onDelete: Cascade)
+  username String
+  topic    String
+  access   Int    @default(0)
+
+  @@unique([username, topic])
+}
+
+enum GameMode {
+  COMPETITIVE
+  COOPERATIVE
+}
