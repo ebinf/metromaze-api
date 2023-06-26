@@ -13,6 +13,10 @@ router.get("/:provider", (req, res) => {
       res.sendFile("rmv.json", { root: "assets/providers" });
       break;
 
+    case "zhv":
+      res.sendFile("zhv.json", { root: "assets/providers" });
+      break;
+
     default:
       res.status(400).json({ error: "Unknown provider" });
       break;
