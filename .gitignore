@@ -1,4 +1,5 @@
 assets/providers/*.json
+data
 
 # Logs
 logs
